@@ -1,19 +1,24 @@
-cmake_minimum_required(VERSION 4.1)
+
+cmake_minimum_required(VERSION 3.16)
 project(HospitalOS)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(.)
+find_package(libpqxx CONFIG REQUIRED)
 
 add_executable(HospitalOS
-        Doctor.cpp
-        Doctor.h
-        Room.cpp
-        Room.h
-        main.cpp
-        Patient.cpp
-        Patient.h
-        Hospital.h
-        Hospital.cpp
-        UI.h
-        UI.cpp)
+        Source/main.cpp
+        Source/Doctor.cpp
+        Source/Room.cpp
+        Source/Patient.cpp
+        Source/Hospital.cpp
+        Source/UI.cpp
+        Source/Database.cpp
+)
+
+target_include_directories(HospitalOS PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/Header
+)
+
+target_link_libraries(HospitalOS PRIVATE pqxx)

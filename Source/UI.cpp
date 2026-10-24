@@ -131,6 +131,7 @@ void UI::AddRoomToUI() {
     Type type;
     int capacity;
     int number_Type;
+    std::cout << "Add Room" << std::endl;
     std::cout << "Enter capacity of room: ";
     std::cin >> capacity;
     std::cout << "1. General ward" << std::endl
@@ -168,6 +169,7 @@ void UI::AddRoomToUI() {
     catch (const std::exception &e) {
         std::cout << e.what() << std::endl;
     }
+    std::cout << "=================" << std::endl;
 }
 
 // Show
@@ -182,6 +184,7 @@ void UI::ShowAllRoomsUI() {
     UI::hospital.ShowaAllRooms();
 }
 
+UI::UI(Database& database) : hospital(database){}
 
 // Menu Patient
 
@@ -205,7 +208,6 @@ void UI::PatientMenu() {
         std::cin.ignore();
         switch (chois) {
             case 1: {
-                std::cout << "===== Add patient =====" << std::endl;
                 UI::AddPatientToUI();
                 break;
             }
@@ -230,6 +232,7 @@ void UI::PatientMenu() {
                     std::cout << "Enter name do you want patient: ";
                     std::cin>> name;
                     patient.setName(name);
+                    UI::hospital.updatePatient(patient);
                 }
                 catch (const std::exception &e) {
                     std::cout << e.what() << std::endl;
@@ -250,6 +253,7 @@ void UI::PatientMenu() {
                     std::cout << "Enter age do you want patient: ";
                     std::cin>> age;
                     patient.setAge(age);
+                    UI::hospital.updatePatient(patient);
                 }
                 catch (const std::exception &e) {
                     std::cout << e.what() << std::endl;
@@ -292,6 +296,7 @@ void UI::PatientMenu() {
                         }
                     }
                     patient.setTelefon(telefon);
+                    UI::hospital.updatePatient(patient);
                 }catch (std::exception &e) {
                     std::cout << e.what() << std::endl;
                 }
@@ -313,6 +318,7 @@ void UI::PatientMenu() {
                     std::cout << "Enter diagnos do you want patient: ";
                     std::getline(std::cin, diagnos);
                     patient.setDiagnosis(diagnos);
+                    UI::hospital.updatePatient(patient);
                 }
                 catch (std::exception &e) {
                     std::cout << e.what() << std::endl;
@@ -332,6 +338,7 @@ void UI::PatientMenu() {
                 } catch (std::exception &e) {
                     std::cout << e.what() << std::endl;
                 }
+                    std::cout << "===================" << std::endl;
                 break;
             }
                 case 8: {
@@ -346,6 +353,7 @@ void UI::PatientMenu() {
                 } catch (std::exception &e) {
                     std::cout << e.what() << std::endl;
                 }
+                    std::cout << "===================" << std::endl;
                 break;
             }
             case 9: {
@@ -392,9 +400,7 @@ void UI::DoctorMenu() {
         std::cin.ignore();
         switch (choice) {
             case 1: {
-                std::cout << "===== Add Doctor =====" << std::endl;
                 UI::AddDoctorToUI();
-                std::cout << "====================" << std::endl;
                 break;
             }
             case 2: {
@@ -663,9 +669,7 @@ void UI::RoomMenu() {
         std::cin.ignore();
         switch (choice) {
             case 1: {
-                std::cout << "===== Add room =====" << std::endl;
                 UI::AddRoomToUI();
-                std::cout << "=======================" << std::endl;
                 break;
             }
             case 2: {

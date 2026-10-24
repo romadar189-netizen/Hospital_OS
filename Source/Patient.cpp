@@ -3,7 +3,8 @@
 #include <stdexcept>
 #include <cctype>
 
-int Patient::Nextid = 1000;
+// Constructor
+
     Patient::Patient(std::string name, int age, std::string telefon, std::string diagnosis) :
 telefon(telefon),
 diagnosis(diagnosis)
@@ -32,7 +33,34 @@ diagnosis(diagnosis)
         else {
             throw std::invalid_argument("Patient dont corect age");
         }
-        id = Nextid++;
+    }
+
+Patient::Patient(int id, std::string name, int age, std::string telefon, std::string diagnosis)
+    : id(id), name(name), age(age),
+      telefon(telefon), diagnosis(diagnosis)
+    {
+        if (!name.empty()) {
+            for (const char& c : name) {
+                if (isalpha(c)) {
+                    Patient::name.push_back(c);
+                }
+                else {
+                    throw std::invalid_argument("Patient dont corect name");
+                }
+            }
+        }
+        else {
+            throw std::invalid_argument("Patient dont corect name");
+        }
+
+        // Age
+
+        if (age >= 0 && age <= 150) {
+            Patient::age = age;
+        }
+        else {
+            throw std::invalid_argument("Patient dont corect age");
+        }
     }
 
   // Geters
@@ -85,4 +113,9 @@ void Patient::setTelefon(std::string telefon) {
     }
 void Patient::setDiagnosis(std::string diagnosis) {
         Patient::diagnosis = diagnosis;
+    }
+
+void Patient::setId(int id)
+    {
+        this->id = id;
     }

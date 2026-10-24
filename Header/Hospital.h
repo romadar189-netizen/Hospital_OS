@@ -7,12 +7,13 @@
 #include "Doctor.h"
 #include "Patient.h"
 #include "Room.h"
-
+#include "Database.h"
 
 
 
 class Hospital {
 private:
+    Database &database;
     std::vector<Doctor> doctors;
     std::vector<Patient> patients;
     std::vector<Room> rooms;
@@ -39,6 +40,12 @@ public:
     void DeletePatient(int id);
     void DeleteDoctor(int id);
     void DeleteRoom(int id);
+
+
+    //Database function
+
+    void updatePatient(const Patient& patient);
+    explicit Hospital(Database& database);
 };
 
 

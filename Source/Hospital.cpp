@@ -3,8 +3,35 @@
 #include <stdexcept>
 #include <iostream>
 #include <vector>
+#include<algorithm>
 
+// Database function
 
+void Hospital::updatePatient(const Patient& patient)
+{
+    auto it = std::find_if(
+        patients.begin(),
+        patients.end(),
+        [&patient](const Patient& currentPatient)
+        {
+            return currentPatient.getId() == patient.getId();
+        }
+    );
+
+    if (it == patients.end())
+    {
+        throw std::runtime_error("Patient not found");
+    }
+
+    database.updatePatient(patient);
+    *it = patient;
+}
+
+Hospital::Hospital(Database& database)
+    : database(database)
+{
+    patients = database.getPatients();
+}
 
 // Getery
 Patient &Hospital::getPatient(int id) {
@@ -36,9 +63,16 @@ Room &Hospital::getRoom(int id) {
 
 // Add
 
-void Hospital::addPatient (const Patient& patient) {
-    Hospital::patients.push_back(patient);
+void Hospital::addPatient(const Patient& patient)
+{
+    Patient newPatient = patient;
+
+    int id = database.addPatient(newPatient);
+    newPatient.setId(id);
+
+    patients.push_back(newPatient);
 }
+
 void Hospital::addDoctor(const Doctor& doctor) {
     Hospital::doctors.push_back(doctor);
 }
@@ -70,14 +104,24 @@ void Hospital::ShowaAllRooms() {
 }
 
 // Delet
-void Hospital::DeletePatient(int id) {
-    for (auto i = patients.begin(); i != patients.end(); i++) {
-        if (i->getId() == id) {
-            patients.erase(i);
-            return;
+void Hospital::DeletePatient(int id)
+{
+    auto it = std::find_if(
+        patients.begin(),
+        patients.end(),
+        [id](const Patient& patient)
+        {
+            return patient.getId() == id;
         }
+    );
+
+    if (it == patients.end())
+    {
+        throw std::runtime_error("Patient not found");
     }
-    throw std::runtime_error("Patient not found");
+
+    database.deletePatient(id);
+    patients.erase(it);
 }
 
 void Hospital::DeleteDoctor(int id) {

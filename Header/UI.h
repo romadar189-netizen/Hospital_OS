@@ -7,6 +7,7 @@
 #include "Doctor.h"
 #include "Room.h"
 #include "Hospital.h"
+
 class UI {
 private:
     Hospital hospital;
@@ -36,6 +37,8 @@ public:
     // Room
 
     void AddRoomToUI();
+
+    explicit UI(Database& database);
 
 };
 #endif //HOSPITALOS_UI_H
